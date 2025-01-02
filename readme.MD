@@ -155,6 +155,24 @@ We welcome contributions! Please follow these steps:
 
 ---
 
+## Conventional commits messages to improve communication
+
+1. Fest: (new feature) 
+2. Fix: (bug fix) 
+3. Docs: (documentation changes) 
+4. Style: (formatting , missing semi-colons, etc) 
+5. Refactor: (code changes that neither fixes a bug nor adds a feature) 
+6. Test: (adding missing tests or correcting existing tests) 
+7. Chore: (changes to the build process or auxiliary tools and libraries)
+
+## With Git Flow, there are at least 5 different types of branches. Let’s describe them first:
+
+1. Main: This branch represents the production-ready state. 
+2. Develop: This branch contains the latest delivered changes for the upcoming release. 
+3. Feature: Feature branches are where new capabilities for future releases are being developed. 
+4. Release: Release branches serve the purpose of preparing a new production release. 
+5. Hotfix: Hotfix branches emerge when a critical bug in production requires an immediate fix.
+
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
