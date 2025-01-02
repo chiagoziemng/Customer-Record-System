@@ -1,11 +1,20 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
-# Custom user model for the system's super administrator
-class SuperAdmin(AbstractUser):
-    # Custom fields can be added here if needed
-     # Inherit all fields from Django's default user model
-    pass
+# Custom user model with roles for SaleAgent, Manager, and SuperAdmin
+class CustomUser(AbstractUser):
+    # Choices for the user roles
+    ROLE_CHOICES = [
+        ('sale_agent', 'Sale Agent'),
+        ('manager', 'Manager'),
+        ('super_admin', 'Super Admin'),
+    ]
+
+    role = models.CharField(max_length=15, choices=ROLE_CHOICES) #Role of the user
+    phone = models.CharField(max_length=15, blank=True, null=True) # Optional phone number
+
+    def __str__(self):
+        return f"{self.username} ({self.get_role_display()})" # String representation for queries
 
 # Model for logging user actions in the system
 class SessionLog(models.Model):
