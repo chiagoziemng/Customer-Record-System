@@ -173,6 +173,7 @@ We welcome contributions! Please follow these steps:
 4. Release: Release branches serve the purpose of preparing a new production release. 
 5. Hotfix: Hotfix branches emerge when a critical bug in production requires an immediate fix.
 
+---
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
