@@ -58,7 +58,7 @@ customer_record_system/
 ### Steps
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/omar-and-blasius/customer_record_system.git
+   git clone https://github.com/chiagoziemng/customer_record_system.git
    cd customer_record_system
    ```
 
@@ -181,7 +181,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ## Contact
 For inquiries or support, please contact:
-- **Omar and Blasius Support**: support@omarandblasius.com
+- **Omar and Blasius Support**: support@omarandblasius.com.ng
 
 ---
 
