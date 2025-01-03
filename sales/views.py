@@ -10,6 +10,29 @@ from .models import ClientRecord
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+# Dashboard for SaleAgent
+@login_required
+def sale_agent_dashboard(request):
+    if not request.user.has_perm('sales.view_saleagent_dashboard'):
+        return redirect('no_permission') # Handle permission denial
+    return render(request, 'sales/sale_agent_dashboard.html')
+
+# Dashboard for Manager
+@login_required
+def manager_dashboard(request):
+    if not request.user.has_perm('sales.view_manager_dashboard'):
+        return redirect('no_permission')
+    return render(request, 'sales/sale_agent_dashboard.html')
+
+
+# Dashboard for SuperAdmin
+@login_required
+def super_admin_dashboard(request):
+    if not request.user.is_superuser:
+        return redirect('no_permission')
+    return render(request, 'sales/super_admin_dashboard.html')
+
+
 
 def client_record_detail(request, id):
     record = get_object_or_404(ClientRecord, pk=id)
