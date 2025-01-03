@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CustomLoginView, ClientRecordListView, client_record_detail, sale_agent_dashboard,  super_admin_dashboard, manager_dashboard
+from .views import CustomLoginView, ClientRecordListView, client_record_detail, sale_agent_dashboard,  super_admin_dashboard, manager_dashboard, custom_admin_view
 
 urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
@@ -10,5 +10,7 @@ urlpatterns = [
     path('sale_agent_dashboar/', sale_agent_dashboard, name='sale_agent_dashboard'),
     path('manager_dashboard/', manager_dashboard, name='manager'),
     path('super_admin_dashboard/', super_admin_dashboard, name='super_admin_dashboard'),
+
+    path('custom-admin/', custom_admin_view),
 
 ]
