@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Client Records</h2>
+    <input type="text" id="searchBox" placeholder="Search records..." class="form-control mb-3">
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody id="clientTable">
+            {% for record in client_records %}
+            <tr data-id="{{ record.id }}" class="client-row">
+                <td>{{ record.name }}</td>
+                <td>{{ record.email }}</td>
+                <td>{{ record.phone_number }}</td>
+                <td>{{ record.address }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No records found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Client-side search functionality
+    $(document).ready(function () {
+        $("#searchBox").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#clientTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+
+        // Row click functionality to load full profile
+        $(".client-row").click(function () {
+            var clientId = $(this).data("id");
+            $.ajax({
+                url: "/client-records/" + clientId + "/",
+                method: "GET",
+                success: function (data) {
+                    // Display the full profile in a modal or dedicated section
+                    alert(JSON.stringify(data));
+                },
+                error: function () {
+                    alert("Failed to fetch client data.");
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

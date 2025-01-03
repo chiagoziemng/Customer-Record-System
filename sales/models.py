@@ -1,5 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Custom user model with roles for SaleAgent, Manager, and SuperAdmin
 class CustomUser(AbstractUser):
@@ -46,7 +49,7 @@ class ClientRecord(models.Model):
         ('red-flagged', 'Red-flagged'),
     ]
 
-    sale_agent = models.ForeignKey(SaleAgent, on_delete=models.CASCADE)
+    sale_agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="client_records")
     business_name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     owner_name = models.CharField(max_length=100)
