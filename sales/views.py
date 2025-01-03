@@ -11,15 +11,18 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
+def client_record_detail(request, id):
+    record = get_object_or_404(ClientRecord, pk=id)
+    return render(request, 'client_record_detail.html', {'record': record})
+
+
 @login_required
 def client_record_detail(request, pk):
     client_record = get_object_or_404(ClientRecord, pk=pk, sale_agent=request.user)
     return JsonResponse({
         "name": client_record.business_name,
-        "email": client_record.email,
         "phone_number": client_record.contact_info,
         "address": client_record.location,
-        "created_at": client_record.created_at.strftime("%Y-%m-%d %H:%M:%S")
     })
 
 

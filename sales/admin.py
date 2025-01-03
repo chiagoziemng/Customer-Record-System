@@ -3,6 +3,11 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, ClientRecord
 
 
+@admin.register(ClientRecord)
+class ClientRecordAdmin(admin.ModelAdmin):
+    list_display = ['business_name', 'location', 'owner_name', 'contact_info', 'status_indicator']
+    list_filter = ['status_indicator']
+    search_fields = ['business_name', 'owner_name']
 # @admin.register(ClientRecord)
 # # class ClientRecordAdmin(admin.ModelAdmin):
 # #     list_display = ['field1', 'field2', 'field3']
@@ -20,4 +25,4 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(ClientRecord)
+# admin.site.register(ClientRecord)
