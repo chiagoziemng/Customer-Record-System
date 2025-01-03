@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
+
 
 # Custom user model with roles for SaleAgent, Manager, and SuperAdmin
 class CustomUser(AbstractUser):
@@ -40,6 +40,8 @@ class SaleAgent(models.Model):
     def __str__(self):
         return self.name  # String representation for the admin panel and queries
     
+
+User = get_user_model()    
 # Model representing a client's business record
 class ClientRecord(models.Model):
     # Choices for the status indicator

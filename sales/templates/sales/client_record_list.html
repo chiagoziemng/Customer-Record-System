@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Email</th>
+                <th>Owner</th>
                 <th>Phone Number</th>
                 <th>Address</th>
             </tr>
@@ -16,10 +16,10 @@
         <tbody id="clientTable">
             {% for record in client_records %}
             <tr data-id="{{ record.id }}" class="client-row">
-                <td>{{ record.name }}</td>
-                <td>{{ record.email }}</td>
-                <td>{{ record.phone_number }}</td>
-                <td>{{ record.address }}</td>
+                <td>{{ record.business_name }}</td>
+                <td>{{ record.owner_name }}</td>
+                <td>{{ record.contact_info }}</td>
+                <td>{{ record.location }}</td>
             </tr>
             {% empty %}
             <tr>
