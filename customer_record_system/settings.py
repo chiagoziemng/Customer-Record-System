@@ -54,6 +54,9 @@ MIDDLEWARE = [
 
 AUTH_USER_MODEL = 'sales.CustomUser'
 
+LOGOUT_REDIRECT_URL = 'login'
+
+
 ROOT_URLCONF = 'customer_record_system.urls'
 
 TEMPLATES = [

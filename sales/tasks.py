@@ -11,7 +11,7 @@ def generate_daily_report():
 
     # Prepare the report
     report_file = f"daily_report_{timezone.now().strftime('%Y-%m-%d')}.csv"
-    report_path = os.path.join('/path/to/reports', reprt_file)
+    report_path = os.path.join('/path/to/reports', report_file)
 
 
     with open(report_path, 'w') as file:

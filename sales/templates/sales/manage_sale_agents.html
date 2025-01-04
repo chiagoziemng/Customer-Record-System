@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'manager_nav.html' %}
+<h2>Manage Sale Agents</h2>
+<a href="{% url 'create_sale_agent' %}" class="btn btn-primary">Create Sale Agent</a>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for agent in sale_agents %}
+            <tr>
+                <td>{{ agent.username }}</td>
+                <td>{{ agent.email }}</td>
+                <td>
+                    {% if agent.is_active %}
+                        Active
+                    {% else %}
+                        Suspended
+                    {% endif %}
+                </td>
+                <td>
+                    {% if agent.is_active %}
+                        <a href="{% url 'suspend_sale_agent' agent.id %}" class="btn btn-danger btn-sm">Suspend</a>
+                    {% else %}
+                        <a href="{% url 'activate_sale_agent' agent.id %}" class="btn btn-success btn-sm">Activate</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No sale agents found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
+

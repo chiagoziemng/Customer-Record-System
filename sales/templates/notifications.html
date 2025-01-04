@@ -1,0 +1,20 @@
+<!-- notifications.html -->
+<!-- {% for notification in notifications %}
+    <div class="notification">
+        <p>{{ notification.message }}</p>
+        <small>{{ notification.created_at }}</small>
+        <a href="{% url 'mark_as_read' notification.id %}">Mark as read</a>
+    </div>
+{% endfor %} -->
+<h1>Your Notifications</h1>
+<ul>
+    {% for notification in notifications %}
+        <li>
+            <strong>{{ notification.timestamp }}</strong>: 
+            {{ notification.message }}
+            {% if not notification.is_read %}
+                <span style="color: red;">(New)</span>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

@@ -2,8 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth import get_user_model
 
-
-
 # Custom user model with roles for SaleAgent, Manager, and SuperAdmin
 class CustomUser(AbstractUser):
     # Choices for the user roles
@@ -51,6 +49,12 @@ class ClientRecord(models.Model):
         ('red-flagged', 'Red-flagged'),
     ]
 
+    APPROVAL_CHOICES = [
+        ('pending', 'Pending Approval'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+
     sale_agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="client_records")
     business_name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
@@ -61,6 +65,8 @@ class ClientRecord(models.Model):
     discussion_review = models.TextField()
     deal_status = models.TextField()
     status_indicator = models.CharField(max_length=15, choices=STATUS_CHOICES, default='new')
+    approval_status = models.CharField(max_length=10, choices=APPROVAL_CHOICES, default='pending')
+
 
     # String representation for the admin panel and queries
     def __str__(self):
@@ -75,3 +81,14 @@ class Manager(models.Model):
     def __str__(self):
         return self.name # String representation for the admin panel and queries
     
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Notification for {self.user.username} - {self.message[:50]} at {self.created_at}"
+    class Meta:
+        ordering = ['-created_at']  # Show the most recent notifications first

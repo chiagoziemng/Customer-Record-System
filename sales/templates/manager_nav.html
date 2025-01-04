@@ -1,0 +1,47 @@
+
+
+<div class="container">
+    <!-- sales/templates/sales/manager_dashboard.html -->
+<h1>Welcome, Manager!</h1>
+<p>Your dashboard content here.</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'manager_dashboard' %}">Client Record</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'manage_sale_agents' %}">Manage Sale Agents</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'notifications' %}">Notifications</a>
+                </li>
+              
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <h3>Unread Notifications</h3>
+    {% if notifications %}
+    <ul class="list-group">
+        {% for notification in notifications %}
+            <li class="list-group-item">
+                <p>{{ notification.message }}</p>
+                <small>Posted at: {{ notification.created_at }}</small>
+                <a href="{% url 'mark_notification_read' notification.id %}" class="btn btn-sm btn-info">Mark as Read</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No unread notifications.</p>
+{% endif %}
+
+</div>
+
