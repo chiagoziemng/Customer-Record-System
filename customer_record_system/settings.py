@@ -40,7 +40,17 @@ INSTALLED_APPS = [
 
     # apps
     'sales', 
+
+    # third apps
+    'axes',
+    'django_crontab',
+    'rest_framework',
 ]
+
+CRONJOBS = [
+    ('0 0 * * *', 'sales.management.commands.generate_daily_report')  # Run every day at midnight
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,13 +58,36 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'sales.middleware.RequireAuthenticationMiddleware',
+    'sales.middleware.RestrictAccessMiddleware',
+    'sales.middleware.RedirectIfNotFoundMiddleware',
+    'axes.middleware.AxesMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AXES_FAILURE_LIMIT = 3  # Number of failed attempts before lockout
+AXES_LOCKOUT_CALLABLE = None
+AXES_COOLOFF_TIME = 1  # Cool-off time in hours
+AXES_RESET_ON_SUCCESS = True
+AXES_LOCKOUT_URL = 'axes/lockout.html'
+AXES_LOCKOUT_TEMPLATE = 'axes/lockout.html'  # Optional custom lockout page
+
+AXES_LOCKOUT_CALLABLE = 'sales.utils.custom_lockout_response'
+
+
+
+
+
+
 AUTH_USER_MODEL = 'sales.CustomUser'
 
 LOGOUT_REDIRECT_URL = 'login'
+# Session will expire after 30 minutes of inactivity
+SESSION_COOKIE_AGE = 1800  # 30 minutes in seconds
+SESSION_SAVE_EVERY_REQUEST = True  # Reset the timer with every request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 
 
 ROOT_URLCONF = 'customer_record_system.urls'
@@ -170,3 +203,27 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+# }
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',  # Updated backend for Django 5.0+
+    'django.contrib.auth.backends.ModelBackend',  # Default Django auth backend
+]

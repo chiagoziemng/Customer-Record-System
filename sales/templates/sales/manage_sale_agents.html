@@ -4,7 +4,8 @@
 {% include 'manager_nav.html' %}
 <h2>Manage Sale Agents</h2>
 <a href="{% url 'create_sale_agent' %}" class="btn btn-primary">Create Sale Agent</a>
-
+<a href="{% url 'sale_agent_profile' %}" class="btn btn-primary">manage Sale Agent Profile</a>
+<h1>Account</h1>
 <table class="table mt-3">
     <thead>
         <tr>
@@ -41,6 +42,75 @@
         {% endfor %}
     </tbody>
 </table>
+
+<div class="container">
+    <h1>Profile</h1>
+    <!-- Table to display SaleAgent information -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agent in sale_agents %}
+            <tr>
+                <td>{{ agent.name }}</td>
+                <td>{{ agent.email }}</td>
+                <td>{{ agent.phone }}</td>
+                <td>{{ agent.location }}</td>
+                <td>{{ agent.start_date }}</td>
+                <td>
+                    <!-- Add edit and delete actions (you can replace the '#' with URLs to actual views) -->
+                    <a href="#" class="btn btn-warning btn-sm">Manage</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No Sale Agents found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h1>Work Schedule</h1>
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Allowed Days</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for agent in sale_agents %}
+            <tr>
+                <td>{{ agent.username }}</td>
+                <td>{{ agent.email }}</td>
+                <td>{{ agent.allowed_days|join:", " }}</td>
+                <td>{{ agent.start_time }}</td>
+                <td>{{ agent.end_time }}</td>
+                <td>
+                    <a href="{% url 'select_days_and_times' agent.id %}" class="btn btn-primary btn-sm">Edit Days & Time</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6">No sale agents found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 
 
 {% endblock %}

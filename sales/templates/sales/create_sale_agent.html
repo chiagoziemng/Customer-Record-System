@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h2>Create Sale Agent</h2>
 <form method="post">
     {% csrf_token %}
@@ -15,3 +18,6 @@
     </div>
     <button type="submit" class="btn btn-success">Create</button>
 </form>
+
+{% endblock %}
+

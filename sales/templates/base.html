@@ -37,6 +37,14 @@
         <!-- Page content will go here -->
         {% endblock %}
     </main>
+
+    <script>
+        let sessionTimeout = setTimeout(() => {
+            alert("Your session has expired due to inactivity. Please log in again.");
+            window.location.href = "{% url 'logout' %}";
+        }, 1800000);  // 30 minutes
+    </script>
+    
     <footer>
         <p>&copy; 2025 My App</p>
     </footer>

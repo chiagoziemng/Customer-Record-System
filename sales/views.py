@@ -7,15 +7,161 @@ from django.contrib.auth import logout, get_user_model
 from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
 from django.views.generic import ListView
-from .models import ClientRecord, Notification
+from .models import ClientRecord, Notification, SaleAgent, SessionLog
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from .forms import ClientRecordForm 
+from .forms import ClientRecordForm , SaleAgentForm, SaleAgentProfileForm
+
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from openpyxl import Workbook
+from openpyxl.utils import get_column_letter
+from io import BytesIO
+from openpyxl import Workbook
+
+
+
+
 
 User = get_user_model()
 
 
-@login_required
+def sale_agent_profile(request):
+    if request.method == 'POST':
+        form = SaleAgentProfileForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the sale agent profile
+            return redirect('sale_agent_list')  # Redirect to a sale agent list or confirmation page
+    else:
+        form = SaleAgentProfileForm()
+    
+    return render(request, 'sales/sale_agent_profile.html', {'form': form})
+
+def report_page(request):
+    return render(request, 'reports/report_page.html')
+
+def generate_report(request):
+    if request.method == 'GET':
+        report_type = request.GET.get('type')
+        report_category = request.GET.get('category')
+
+        # Check for valid parameters
+        if report_category == 'sale_agent':
+            return generate_sale_agent_report(report_type)
+        elif report_category == 'client_record':
+            return generate_client_record_report(report_type)
+        elif report_category == 'session_log':
+            return generate_session_log_report(report_type)
+        else:
+            return HttpResponse("Invalid report category. Choose 'sale_agent', 'client_record', or 'session_log'.")
+
+    return render(request, 'generate_report.html')  # Render the report selection page
+
+
+def generate_sale_agent_report(report_type):
+    sale_agents = SaleAgent.objects.all()
+
+    if report_type == 'pdf':
+        return generate_pdf(sale_agents, "Sale Agents Report")
+    elif report_type == 'excel':
+        return generate_excel(sale_agents, "Sale Agents Report")
+    return HttpResponse("Invalid report type. Use 'pdf' or 'excel'.")
+
+
+def generate_client_record_report(report_type):
+    client_records = ClientRecord.objects.all()
+
+    if report_type == 'pdf':
+        return generate_pdf(client_records, "Client Records Report")
+    elif report_type == 'excel':
+        return generate_excel(client_records, "Client Records Report")
+    return HttpResponse("Invalid report type. Use 'pdf' or 'excel'.")
+
+
+def generate_session_log_report(report_type):
+    session_logs = SessionLog.objects.all()
+
+    if report_type == 'pdf':
+        return generate_pdf(session_logs, "Session Logs Report")
+    elif report_type == 'excel':
+        return generate_excel(session_logs, "Session Logs Report")
+    return HttpResponse("Invalid report type. Use 'pdf' or 'excel'.")
+
+
+def generate_pdf(data, title):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{title}.pdf"'
+
+    p = canvas.Canvas(response, pagesize=letter)
+    p.drawString(100, 750, title)
+
+    y_position = 730
+    for record in data:
+        p.drawString(100, y_position, str(record))  # Customize based on your model fields
+        y_position -= 20
+
+    p.showPage()
+    p.save()
+    return response
+
+
+def generate_excel(data, title):
+    wb = Workbook()
+    ws = wb.active
+    ws.title = title
+
+    # Add headers dynamically
+    ws.append([field.name for field in data.model._meta.fields])
+
+    for record in data:
+        ws.append([getattr(record, field.name) for field in data.model._meta.fields])
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename="{title}.xlsx"'
+    wb.save(response)
+    return response
+
+
+# 
+
+def view_session_logs(request):
+    """View to display session logs."""
+    logs = SessionLog.objects.all().order_by('-timestamp')
+    return render(request, 'sales/session_logs.html', {'logs': logs})
+
+
+
+@login_required(login_url='login')
+def select_days_and_times(request, agent_id):
+    """View for managers to select allowed days and times for a sale agent."""
+    try:
+        sale_agent = User.objects.get(id=agent_id)
+    except SaleAgent.DoesNotExist:
+        return render(request, 'sales/error.html', {'error': 'SaleAgent not found.'})
+
+    if request.user.groups.filter(name='Manager').exists() or request.user.is_superuser:
+        if request.method == 'POST':
+            form = SaleAgentForm(request.POST, instance=sale_agent)
+            if form.is_valid():
+                form.save()
+                return redirect('manage_sale_agents')  # Redirect back to the manage sale agents page
+        else:
+            form = SaleAgentForm(instance=sale_agent)  # Prepopulate the form with existing data
+
+        return render(request, 'sales/select_days_and_times.html', {
+            'form': form,
+            'sale_agent': sale_agent
+        })
+
+    return HttpResponseForbidden("Permission denied.")
+
+
+
+def restricted_access(request):
+    """View to display an access restriction message."""
+    return render(request, 'sales/restricted_access.html')
+
+@login_required(login_url='login')
 def manage_sale_agents(request):
     """View for managers to manage sale agents."""
     if request.user.groups.filter(name='Manager').exists() or request.user.is_superuser:

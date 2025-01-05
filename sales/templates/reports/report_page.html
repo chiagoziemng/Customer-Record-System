@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'manager_nav.html' %}
+    <h1>Generate Report</h1>
+    <form method="get" action="{% url 'generate_report' %}">
+        <label for="category">Select Report Category:</label>
+        <select name="category" id="category">
+            <option value="sale_agent">Sale Agent</option>
+            <option value="client_record">Client Record</option>
+            <option value="session_log">Session Log</option>
+        </select>
+        <br>
+
+        <label for="type">Select Report Type:</label>
+        <select name="type" id="type">
+            <option value="pdf">PDF</option>
+            <option value="excel">Excel</option>
+        </select>
+        <br>
+
+        <button type="submit">Generate Report</button>
+    </form>
+    {% endblock %}
