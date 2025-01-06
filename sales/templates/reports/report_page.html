@@ -1,24 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container-fluid">
+    <div class="row">
 {% include 'manager_nav.html' %}
-    <h1>Generate Report</h1>
-    <form method="get" action="{% url 'generate_report' %}">
-        <label for="category">Select Report Category:</label>
-        <select name="category" id="category">
-            <option value="sale_agent">Sale Agent</option>
-            <option value="client_record">Client Record</option>
-            <option value="session_log">Session Log</option>
-        </select>
-        <br>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="text-center mb-4">
+            <i class="bi bi-clipboard-data mx-4"></i> <strong>Report Overview</strong>
+        </h1>        
+    </div>
+    <h2 class="text-center mb-4">Generate a Comprehensive Report</h2>
 
-        <label for="type">Select Report Type:</label>
-        <select name="type" id="type">
-            <option value="pdf">PDF</option>
-            <option value="excel">Excel</option>
-        </select>
-        <br>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="get" action="{% url 'generate_report' %}" class="col-md-6 mx-auto">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="category" class="form-label">Select Report Classification</label>
+                    <select name="category" id="category" class="form-select" required>
+                        <option value="sale_agent">Sales Representative</option>
+<option value="client_record">Client Information</option>
+<option value="session_log">Session History</option>
 
-        <button type="submit">Generate Report</button>
-    </form>
+                    </select>
+                </div>
+            
+                <div class="mb-3">
+                    <label for="type" class="form-label">Select Report Format</label>
+                    <select name="type" id="type" class="form-select" required>
+                        <option value="pdf">PDF</option>
+                        <option value="excel">Excel</option>
+                    </select>
+                </div>
+            
+                <button type="submit" class="btn btn-primary w-100">Generate Report</button>
+            </form>
+        </div>
+    </div>
+    
+
+</main>
+</div>
+</div>
     {% endblock %}

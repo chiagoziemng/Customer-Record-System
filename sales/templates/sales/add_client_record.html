@@ -1,14 +1,80 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h2>Add Client Record</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}  <!-- This renders the form fields automatically -->
-            <button type="submit" class="btn btn-primary">Add Client</button>
-        </form>
-        <br>
-        <a href="{% url 'sale_agent_dashboard' %}">Go back to dashboard</a>
+<div class="container-fluid">
+    <div class="row">
+        {% include 'sales_nav.html' %}
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h2 class="text-center mb-4 font-weight-bold text-white">Client Records Management</h2>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="container mt-5">
+                        <h2>Add Client Record</h2>
+                        <form method="POST" class="row g-3">
+                            {% csrf_token %}
+                            <!-- First Row of Fields -->
+                            <div class="col-md-6">
+                                <label for="business_name" class="form-label">Business Name</label>
+                                {{ form.business_name }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="location" class="form-label">Location</label>
+                                {{ form.location }}
+                            </div>
+
+                            <!-- Second Row of Fields -->
+                            <div class="col-md-6">
+                                <label for="owner_name" class="form-label">Owner Name</label>
+                                {{ form.owner_name }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="contact_info" class="form-label">Contact Info</label>
+                                {{ form.contact_info }}
+                            </div>
+
+                            <!-- Third Row of Fields -->
+                            <div class="col-md-6">
+                                <label for="whatsapp_validity" class="form-label">WhatsApp Validity</label>
+                                {{ form.whatsapp_validity }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="social_media_accounts" class="form-label">Social Media Accounts</label>
+                                {{ form.social_media_accounts }}
+                            </div>
+
+                            <!-- Fourth Row of Fields -->
+                            <div class="col-md-6">
+                                <label for="discussion_review" class="form-label">Discussion Review</label>
+                                {{ form.discussion_review }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="deal_status" class="form-label">Deal Status</label>
+                                {{ form.deal_status }}
+                            </div>
+
+                            <!-- Fifth Row of Fields -->
+                            <div class="col-md-6">
+                                <label for="status_indicator" class="form-label">Status Indicator</label>
+                                {{ form.status_indicator }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="category" class="form-label">Category</label>
+                                {{ form.category }}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Add Client</button>
+                            </div>
+                        </form>
+                        <br>
+                        <a href="{% url 'sale_agent_dashboard' %}">Go back to dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
+</div>
 {% endblock %}

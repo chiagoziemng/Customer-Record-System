@@ -1,29 +1,59 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<div class="container-fluid">
+    <div class="row">
 {% include 'manager_nav.html' %}
-<!-- session_logs.html -->
-<h2>Session Logs</h2>
-<table>
-    <thead>
-        <tr>
-            <th>User</th>
-            <th>Action</th>
-            <th>Timestamp</th>
-            <th>Old Values</th>
-            <th>New Values</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for log in logs %}
-            <tr>
-                <td>{{ log.user.username }}</td>
-                <td>{{ log.action }}</td>
-                <td>{{ log.timestamp }}</td>
-                <td>{{ log.old_value }}</td>
-                <td>{{ log.new_value }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="text-center mb-4">
+            <i class="bi bi-clipboard-data mx-4"></i> <strong>Session Logs Overview</strong>
+        </h1>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-body">
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">
+            <i class="bi bi-file-earmark-text mx-3"></i> <strong>Session Logs</strong>
+        </h2>
+    
+        <!-- Table to display session logs -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Username</th>
+<th>Action Performed</th>
+<th>Timestamp</th>
+<th>Previous Values</th>
+<th>Updated Values</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                        <tr>
+                            <td>{{ log.user.username }}</td>
+                            <td>{{ log.action }}</td>
+                            <td>{{ log.timestamp }}</td>
+                            <td>{{ log.old_value }}</td>
+                            <td>{{ log.new_value }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">No session logs available</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+</main>
+</div>
+</div>
+
 {% endblock %}

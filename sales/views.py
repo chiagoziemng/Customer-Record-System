@@ -297,7 +297,7 @@ def add_client_record(request):
         else:
             # If form is invalid, return the same page with error messages
             messages.error(request, 'There was an error with your form. Please try again.')
-            return render(request, 'add_client_record.html', {'form': form})
+            return render(request, 'sales/add_client_record.html', {'form': form})
 
     else:
         # If GET request, create an empty form

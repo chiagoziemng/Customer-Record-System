@@ -1,35 +1,18 @@
 <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
     <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="sidebarMenuLabel">Welcome, Manager!</h5>
+        <h5 class="offcanvas-title" id="sidebarMenuLabel">Welcome, SaleAgent!</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 active fs-6" aria-current="page" href="{% url 'manager_dashboard' %}">
+            <a class="nav-link d-flex align-items-center gap-2 active fs-6" aria-current="page" href="{% url 'sale_agent_dashboard' %}">
               <i class="bi bi-house-fill"></i>
               Overview
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 fs-6" href="{% url 'manage_sale_agents' %}">
-              <i class="bi bi-file-earmark"></i>
-              Sales Agent Management
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 fs-6" href="{% url 'view_session_logs' %}">
-              <i class="bi bi-journal-text"></i>
-              Session History
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 fs-6" href="{% url 'report_page' %}">
-              <i class="bi bi-clipboard-data"></i>
-              Reports Center
-            </a>
-          </li>
+          
           <li class="nav-item">
             <a href="#" class="nav-link position-relative fs-6">
               <i class="bi bi-bell" ></i>
@@ -46,12 +29,6 @@
         <hr class="my-3">
 
         <ul class="nav flex-column mb-auto">
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 fs-6" href="http://127.0.0.1:8000/omar/">
-              <i class="bi bi-gear-wide-connected" ></i>
-              System Settings
-            </a>
-          </li>
           <li class="nav-item">
             <form method="post" action="{% url 'logout' %}" >
                 {% csrf_token %}

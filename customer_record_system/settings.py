@@ -197,7 +197,15 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# Optional: Additional directories for static files
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# Define where `collectstatic` gathers files for production
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

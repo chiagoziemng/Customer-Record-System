@@ -49,3 +49,15 @@ class ClientRecordForm(forms.ModelForm):
             'whatsapp_validity', 'social_media_accounts', 'discussion_review',
             'deal_status', 'status_indicator', 'category'
         ]
+        widgets = {
+            'business_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
+            'owner_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'contact_info': forms.TextInput(attrs={'class': 'form-control'}),
+            'whatsapp_validity': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'social_media_accounts': forms.TextInput(attrs={'class': 'form-control'}),
+            'discussion_review': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'deal_status': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'status_indicator': forms.Select(attrs={'class': 'form-select'}),
+            'category': forms.Select(attrs={'class': 'form-select'}),
+        }

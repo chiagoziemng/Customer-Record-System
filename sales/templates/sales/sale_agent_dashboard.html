@@ -1,11 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        {% include 'sales_nav.html' %}
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <!-- <h1 class="h2">Dashboard</h1> -->
+                <h2 class="text-center mb-4 font-weight-bold text-white">Client Records Management</h2>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <a href="{% url 'add_client_record' %}" class="btn btn-sm btn-outline-primary">Add Clients</a>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Calendar</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Calculator</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-body">
+
 <div class="container">
-<!-- sales/templates/sales/sale_agent_dashboard.html -->
-<h1>Welcome, SaleAgent!</h1>
-<p>Your dashboard content here.</p>
-<a href="{% url 'add_client_record' %}">Add Clients</a>
-<h2>Unread Notifications</h2>
+
+
+<!-- <h2>Unread Notifications</h2>
 <ul class="list-group">
     {% for notification in notifications %}
         <li class="list-group-item list-group-item-info">
@@ -18,7 +34,7 @@
     {% empty %}
         <li class="list-group-item">No unread notifications.</li>
     {% endfor %}
-</ul>
+</ul> -->
 
 
        
@@ -27,27 +43,30 @@
     <h1 class="mb-4">Client Records</h1>
     <div class="row">
         <div class="col-12">
+            <input type="text" id="searchBox" placeholder="Search records..." class="form-control mb-3">
+    
             <table class="table table-striped table-responsive">
                 <thead>
                     <tr>
                         <th scope="col">Business Name</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Owner Name</th>
-                        <th scope="col">Contact Info</th>
-                        <th scope="col">WhatsApp Validity</th>
-                        <th scope="col">Status Indicator</th>
+                        <th scope="col">Business Location</th>
+                        <th scope="col">Owner's Full Name</th>
+                        <th scope="col">Contact Details</th>
+                        <th scope="col">WhatsApp Status</th>
+                        <th scope="col">Current Status</th>
+                        
                     </tr>
                 </thead>
-                <tbody>
-                    {% for client in client_records %}
-                    <tr>
-                        <td>{{ client.business_name }}</td>
-                        <td>{{ client.location }}</td>
-                        <td>{{ client.owner_name }}</td>
-                        <td>{{ client.contact_info }}</td>
-                        <td>{% if client.whatsapp_validity %}Valid{% else %}Invalid{% endif %}</td>
+                <tbody id="clientTable">
+                    {% for record in client_records %}
+                    <tr data-id="{{ record.id }}" class="client-row">
+                        <td>{{ record.business_name }}</td>
+                        <td>{{ record.location }}</td>
+                        <td>{{ record.owner_name }}</td>
+                        <td>{{record.contact_info }}</td>
+                        <td>{% if record.whatsapp_validity %}Valid{% else %}Invalid{% endif %}</td>
                         <td class="text-{{ client.get_status_indicator_display|lower }}">
-                            <span class="badge bg-{{ client.status_indicator }}">{{ client.get_status_indicator_display }}</span>
+                            <span class="badge bg-{{ client.status_indicator }}">{{ record.get_status_indicator_display }}</span>
                         </td>
                     </tr>
                     {% empty %}
@@ -60,64 +79,41 @@
         </div>
     </div>
 </div>
-<div class="container">
-    <h2>Client Records</h2>
-    <input type="text" id="searchBox" placeholder="Search records..." class="form-control mb-3">
-    
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Owner</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-            </tr>
-        </thead>
-        <tbody id="clientTable">
-            {% for record in client_records %}
-            <tr data-id="{{ record.id }}" class="client-row">
-                <td>{{ record.business_name }}</td>
-                <td>{{ record.owner_name }}</td>
-                <td>{{ record.contact_info }}</td>
-                <td>{{ record.location }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">No records found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+
+</div>
+</div>
+    </main>
+</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Client-side search functionality
-    $(document).ready(function () {
-        $("#searchBox").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#clientTable tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-            });
-        });
-
-        // Row click functionality to load full profile
-        $(".client-row").click(function () {
-            var clientId = $(this).data("id");
-            $.ajax({
-                url: "/client-records/" + clientId + "/",
-                method: "GET",
-                success: function (data) {
-                    // Display the full profile in a modal or dedicated section
-                    alert(JSON.stringify(data));
-                },
-                error: function () {
-                    alert("Failed to fetch client data.");
-                }
-            });
+// Client-side search functionality
+$(document).ready(function () {
+    $("#searchBox").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#clientTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
+
+    // Row click functionality to load full profile
+    $(".client-row").click(function () {
+        var clientId = $(this).data("id");
+        $.ajax({
+            url: "/client-records/" + clientId + "/",
+            method: "GET",
+            success: function (data) {
+                // Display the full profile in a modal or dedicated section
+                alert(JSON.stringify(data));
+            },
+            error: function () {
+                alert("Failed to fetch client data.");
+            }
+        });
+    });
+});
 </script>
-</div>
 {% endblock %}
 
