@@ -117,7 +117,7 @@
        
       </head>
 
-<body class="d-flex align-items-center py-4 bg-black-subtle">
+<body class="d-flex align-items-center py-4 bg-primary">
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
         <symbol id="check2" viewBox="0 0 16 16">
           <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -136,7 +136,7 @@
 
 
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="card p-4 shadow-sm" style="width: 400px;">
+        <div class="card p-4 shadow-sm bg-white" style="width: 400px;">
             <img class="" src="{% static 'images/10.png' %}" alt="">
             {% if form.errors %}
                 <div class="alert alert-danger">
@@ -152,15 +152,15 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
+                    <label for="username" class="form-label text-black">Username</label>
+                    <input type="text" class="form-control bg-white" id="username" name="username" required>
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <label for="password" class="form-label text-black">Password</label>
+                    <input type="password" class="form-control bg-white" id="password" name="password" required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Sign in</button>
-                <p class="mt-5 mb-3 text-body-secondary">&copy; 2019–2025</p>
+                <p class="mt-5 mb-3 text-black">&copy; 2019–2025</p>
             </form>
         </div>
     </div>
